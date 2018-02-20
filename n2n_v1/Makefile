@@ -23,6 +23,8 @@ INSTALL_DOC=$(INSTALL) -m644
 
 # DESTDIR set in debian make system
 PREFIX?=$(DESTDIR)/usr
+SYSTEMDDIR=$(PREFIX)/lib/systemd/system
+SYSCONFIGDIR=$(PREFIX)/../etc/sysconfig
 BINDIR=$(PREFIX)/bin
 SBINDIR=$(PREFIX)/sbin
 MANDIR?=$(PREFIX)/share/man
@@ -64,11 +66,14 @@ clean:
 
 install: edge supernode edge.8.gz supernode.1.gz
 	echo "MANDIR=$(MANDIR)"
-	$(MKDIR) $(BINDIR) $(SBINDIR) $(MAN1DIR) $(MAN8DIR)
+	$(MKDIR) $(BINDIR) $(SBINDIR) $(MAN1DIR) $(MAN8DIR) $(SYSCONFIGDIR) $(SYSTEMDDIR)
 	$(INSTALL_PROG) supernode $(BINDIR)/
 	$(INSTALL_PROG) edge $(SBINDIR)/
 	$(INSTALL_DOC) edge.8.gz $(MAN8DIR)/
 	$(INSTALL_DOC) supernode.1.gz $(MAN1DIR)/
+	$(INSTALL) n2n.sysconfig $(SYSCONFIGDIR)/n2n
+	$(INSTALL) n2n-edge.service $(SYSTEMDDIR)/
+	$(INSTALL) n2n-supernode.service $(SYSTEMDDIR)/
 
 # Courtesy of Ole Tange <ole@tange.dk>
 

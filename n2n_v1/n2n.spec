@@ -9,6 +9,9 @@ URL: http://www.ntop.org/n2n
 Source0: %{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
+%{?systemd_requires}
+BuildRequires: systemd
+
 %description
 N2N is a peer-to-peer virtual private network system. N2N uses the universal
 TUNTAP interface to create TAP network interfaces to an encrypted virtual
@@ -37,8 +40,23 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
      /usr/bin/supernode
      /usr/sbin/edge
+     /etc/sysconfig/n2n
+     /usr/lib/systemd/system/n2n-edge.service
+     /usr/lib/systemd/system/n2n-supernode.service
 %doc /usr/share/man/man1/supernode.1.gz
 %doc /usr/share/man/man8/edge.8.gz
+
+%post
+%systemd_post n2n-edge.service
+%systemd_post n2n-supernode.service
+
+%preun
+%systemd_preun n2n-edge.service
+%systemd_preun n2n-supernode.service
+
+%postun
+%systemd_postun_with_restart n2n-edge.service
+%systemd_postun_with_restart n2n-supernode.service
 
 
 %changelog

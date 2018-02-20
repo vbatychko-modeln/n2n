@@ -1,0 +1,12 @@
+[Unit]
+Description=N2N Supernode service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/supernode -l $SUPERNODE_PORT
+Restart=on-abnormal
+EnvironmentFile=-/etc/sysconfig/n2n
+
+[Install]
+WantedBy=multi-user.target

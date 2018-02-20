@@ -56,6 +56,9 @@ debian/n2n.install
 debian/n2n.manpages
 debian/README.Debian
 debian/rules
+n2n.sysconfig
+n2n-edge.service
+n2n-supernode.service
 "
 
 BASE=`pwd`

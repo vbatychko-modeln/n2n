@@ -1,0 +1,12 @@
+[Unit]
+Description=N2N Edge service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/sbin/edge -l ${SUPERNODE_ADDRESS}:${SUPERNODE_PORT} -c $COMMUNITY -a $EDGE_ADDRESS
+Restart=on-abnormal
+EnvironmentFile=-/etc/sysconfig/n2n
+
+[Install]
+WantedBy=multi-user.target
